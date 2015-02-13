@@ -1,0 +1,235 @@
+{% extends "EditorImgeditorBundle::layout.html.twig" %}
+
+
+{% block title %}
+Test komponenut brightness
+{% endblock %}
+
+
+{% block body %}
+<h1>To jest test akcji brightness</h1>
+
+
+{% raw %}
+<style>
+    #cnt-brightness {
+        border: 1px solid black;
+        width: 100px;
+        height: 150px;
+    }
+    
+</style>
+
+{% endraw %}
+
+
+<script type="text/template" id="tpl-brightness">
+    <div id="cnt-brightness" class="cnt-tasktool">
+        <span class="trg-activate <% if(data.active){ %>active<% } else { %>not-active<% } %>">Kontrast</span>
+        <% if (data.active) { %>
+        <div>
+            <div class="slider"></div>
+            <div class="apply">Zatwierdź</div>
+        </div>
+        <% }; %>
+    </div>
+</script>
+
+
+
+
+
+<div id="cnt-task-tool" style="border: 1px solid green;">
+    
+    
+</div>
+
+
+
+
+
+
+
+{% raw %}
+<script>
+
+    window.onload = function() {
+
+        var TaskTool = Backbone.View.extend({
+            events: {
+                "click .trg-activate": "toggleIsActive"
+                
+            }
+            
+        });
+
+        $.extend(TaskTool.prototype, {
+            initialize: function(options) {
+                this.idTpl      = options.idTpl;     
+                this.active     = options.actvie || false;
+                this.urlAction  = options.urlAction;
+                this.data       = options.data || {};
+                _.bindAll(this, "toggleIsActive");
+                
+                
+                this.template   = _.template($("#" + this.idTpl).html());
+                
+                this._initialize(options)
+            },
+            
+            _initialize: function(options){
+                
+            },
+            
+            toggleIsActive: function(){
+              console.log("toggleIsActive");
+              this.active = !this.active;
+              this.render();
+                
+            },
+            
+            render: function(){
+              this._beforeRender();            
+              this.$el.html(this.template({data: {active: this.active}}));                    
+              this._afterRender();
+              return this;
+                  
+            },
+            
+            activate: function() {
+               console.log("activate");
+               this.active = true;
+               this.render();
+            },
+            
+            deactivate: function() {
+                console.log("deactivate");
+                this.active = false;
+                this.render();
+            },
+                    
+            _activate: function() {
+                console.log("_activate");
+            },
+            
+            _deactivate: function() {
+                console.log("_deactivate");
+            },
+                    
+            _beforeRender: function(){
+                 console.log("_beforeRender");
+            },
+            
+            _afterRender: function(){
+                 console.log("_afterRender");
+            }
+
+        });
+
+
+        var TaskToolSlider = TaskTool.extend({
+            
+            
+            
+            _initialize: function(){
+                console.log("_initialize");
+            },
+            
+            _beforeRender: function(){
+                var sliders = this.$el.find(".slider");
+                if(sliders.length){
+                    sliders.slider("destroy");
+                }
+            },
+            
+            _afterRender: function(){
+                var sliders = this.$el.find(".slider");
+                if(sliders.length){
+                      sliders.slider({                          
+                          stop : this.onSlideStop
+                      });
+                }
+            }, 
+            
+            
+            onSlideStop: function(event, ui){
+                console.log("onSlideStop");                
+            }
+            
+           /*slideStop: function(event, ui) {
+                console.log("slideStop.ui", ui);
+                var data = {
+                    v: ui.value                    
+                };
+                console.log(this.url_action);
+                $.post(this.url_action, data, function(response){
+                   $("#preview").attr("src", "http://" + response.image);
+                   console.log("response", response); 
+                });
+               
+            }*/
+
+        });
+        
+        var TaskToolBrightness = TaskToolSlider.extend({
+        });
+        
+        var data = {% endraw %} {{ data | raw }} {% raw %};        
+        console.log("data", data);
+        var options = {
+          idTpl:        "tpl-brightness",
+          urlAction:    data.url_action
+        };
+        
+        var taskToolBrightness = new TaskToolBrightness(options);
+        
+        
+        $("#cnt-task-tool").append(taskToolBrightness.render().el);
+        
+        
+        console.log("taskToolBrightness", taskToolBrightness);
+
+
+
+
+        /* var TaskToolStateMachine = function(){
+         
+         };
+         
+         $.extend(TaskToolStateMachine.prototype, Backbone.Events, {
+         add: function(taskTool){
+         
+         this.bind("change", function(currentTaskTool){                   
+         if(taskTool == currentTaskTool){
+         taskTool.activate();                    
+         }else{
+         taskTool.deactivate();
+         }                
+         });
+         
+         taskTool.setActive = $.proxy(function(){
+         this.trigger("change", taskTool);
+         }, this);
+         
+         }
+         });
+         
+         var task1           = new TaskTool();
+         var task2           = new TaskTool();        
+         var statemachine    = new TaskToolStateMachine();
+         
+         
+         statemachine.add(task1);
+         statemachine.add(task2);
+         
+         statemachine.trigger("change", task1);
+         */
+
+
+    }
+
+</script>
+
+{% endraw %}
+
+{% endblock %}

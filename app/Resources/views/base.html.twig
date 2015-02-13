@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Edytor obrazków{% endblock %}</title>       
+        <link rel="icon" type="image/x-icon" href="#" />
+         {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <div class="container">
+        {% block body %}{% endblock %}
+        </div>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

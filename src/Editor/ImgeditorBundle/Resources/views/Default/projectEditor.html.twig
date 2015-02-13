@@ -1,0 +1,131 @@
+{% extends "EditorImgeditorBundle::layout.html.twig" %}
+
+{% block body %}
+
+
+
+
+
+{% raw %}
+<script id="tpl-image" type="text/template">
+    <center>
+    <img src="<%=data.src%>" />    
+    </center>
+</script>
+{% endraw %}
+
+<script type="text/template" id="tpl-project">
+    <div id="cnt-project">       
+        <div>
+            <input type="file" name="file" id="file" />
+        </div>
+    </div>
+</script>
+
+
+<script type="text/template" id="tpl-action">
+    <div id="step-edit-image">
+        <div style="overflow: hidden;">
+            <ul id="toolbar">
+                <li><a id="btn-rotate" class="btn">Obróć</a></li>
+                <li><a id="btn-crop" class="btn">Przytnij</a></li>
+                <li><a id="btn-undo" class="btn">Cofnij</a></li>
+                <li><a id="btn-select" class="btn">Zaznacz</a></li>
+            </ul>
+        </div>
+
+        <div id="scene" style="overflow: hidden;">
+        </div>
+    </div>
+</script>
+
+
+{% raw %}
+<script>
+    window.onload = function(){
+       var ieoptions = {% endraw %}{{ieoptions | raw}}{% raw %}
+       
+       
+       console.log("ieoptions", ieoptions);
+        
+       IE.init(ieoptions);
+        
+      
+        
+        
+        
+       /*
+        var TaskTool = function() {
+           
+        };
+        
+        $.extend(TaskTool.prototype, {
+             activate: function(){
+                console.log("activate");
+            },
+            
+            deactivate: function(){
+                console.log("deactivate");
+            }        
+        
+        });
+        
+        
+        var TaskToolStateMachine = function(){
+        
+        };
+        
+        $.extend(TaskToolStateMachine.prototype, Backbone.Events, {
+            add: function(taskTool){
+            
+                this.bind("change", function(currentTaskTool){                   
+                    if(taskTool == currentTaskTool){
+                        taskTool.activate();                    
+                    }else{
+                        taskTool.deactivate();
+                    }                
+                });
+                
+                taskTool.setActive = $.proxy(function(){
+                    this.trigger("change", taskTool);
+                }, this);
+            
+            }
+        });
+        
+        var task1           = new TaskTool();
+        var task2           = new TaskTool();        
+        var statemachine    = new TaskToolStateMachine();
+        
+        
+        statemachine.add(task1);
+        statemachine.add(task2);
+        
+        
+        
+        statemachine.trigger("change", task1);
+        */
+        
+        
+        
+        
+        
+        
+       
+    
+    
+    };
+    
+    
+</script>
+
+{% endraw %}
+
+
+{# Główny kontener aplikacji #}
+<div id="cnt-app">
+    
+    
+</div>
+
+{% endblock %}

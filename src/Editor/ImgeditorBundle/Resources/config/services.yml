@@ -1,0 +1,10 @@
+parameters:
+    web_dir: web/
+    ie.img_web_dir: upload/images/
+    ie.img_base_dir: %kernel.root_dir%/../%web_dir%upload/images
+    ie.img_tmp_dir: %kernel.root_dir%/../%web_dir%upload/tmp/                 
+
+services:
+  ie.project_manager:
+    class: Editor\ImgeditorBundle\Utility\ProjectManager
+    arguments: ["%ie.img_base_dir%", "%ie.img_web_dir%", "@session",  "@doctrine", "@service_container"]

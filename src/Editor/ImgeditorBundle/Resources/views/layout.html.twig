@@ -1,0 +1,36 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}
+Edytor zdjęć 
+{% endblock %}
+
+        
+{% block stylesheets %}
+    {{parent()}}    
+    {% stylesheets 
+    "bundles/editorimgeditor/scripts/jquery-ui-1.10.3.custom.min.css"
+    "bundles/editorimgeditor/scripts/imgareaselect.css"
+    "bundles/editorimgeditor/scripts/areaselect/imgareaselect-default.css"
+    "bundles/editorimgeditor/scripts/bootstrap/css/bootstrap.min.css"
+    filter="cssrewrite"%}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{parent()}}
+    {% javascripts 
+        "@EditorImgeditorBundle/Resources/public/scripts/jquery.js" 
+        "@EditorImgeditorBundle/Resources/public/scripts/underscore.js" 
+        "@EditorImgeditorBundle/Resources/public/scripts/backbone.js" 
+        "@EditorImgeditorBundle/Resources/public/scripts/ie/app.js" 
+        "@EditorImgeditorBundle/Resources/public/scripts/imgareaselect.js" 
+        "@EditorImgeditorBundle/Resources/public/scripts/jquery-ui-1.10.3.custom.min.js" 
+        "@EditorImgeditorBundle/Resources/public/scripts/bootstrap/js/bootstrap.min.js" 
+        "@EditorImgeditorBundle/Resources/public/scripts/areaselect/jquery.imgareaselect.js" 
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}    
+

@@ -1,0 +1,44 @@
+base:
+    path: /
+    defaults: { _controller: EditorImgeditorBundle:Default:index}
+
+pr_create:
+    path: /obrazek/zaladuj
+    defaults: { _controller: EditorImgeditorBundle:Default:createProject}
+    
+    
+pr_undo:
+    path: /wstecz
+    defaults: { _controller: EditorImgeditorBundle:Default:undo}
+    
+pr_redo:
+    path: /doprzodu
+    defaults: { _controller: EditorImgeditorBundle:Default:redo}
+    
+eff_rotate:
+    path: /obroc
+    defaults: { _controller: EditorImgeditorBundle:Default:rotate}
+    
+    
+
+pr_edit:
+    path: obrazek/edycja/{idAction}
+    defaults: { _controller: EditorImgeditorBundle:Default:editProject, idAction: 0}
+    
+pr_remove:
+    path: usun
+    defaults: { _controller: EditorImgeditorBundle:Default:removeProject}    
+    
+eff_crop: 
+   path: /obrazek/przytnij
+   defaults: { _controller: EditorImgeditorBundle:Default:crop}
+   
+   
+pr_download:
+    path: /pobierz
+    defaults: {_controller: EditorImgeditorBundle:Default:download}
+   
+   
+test_delete: 
+    path: /test/usun
+    defaults: { _controller: EditorImgeditorBundle:Test:delete}

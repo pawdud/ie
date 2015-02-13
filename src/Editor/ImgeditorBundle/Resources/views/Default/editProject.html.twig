@@ -1,0 +1,224 @@
+{% extends 'EditorImgeditorBundle::layout.html.twig' %}
+
+{% block body %}   
+    <form id="formularz-edytor" method="post"> 
+        <div class="col-md-8 col-md-offset-2" />
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div id="kontrolka-wstecz" class="btn btn-info">
+                    <a href="{{path('pr_undo')}}">Wstecz</a>
+                </div> 
+               
+               <div id="kontrolka-doprzodu" class="btn btn-info">
+                   <a href="{{path('pr_redo')}}">Do przodu</a>
+               </div>                
+                <div id="kontrolka-zaznacz-obszar" class="btn btn-info">Zaznacz obszar</div>
+                <div id="kontrolka-przytnij" class="btn btn-info">Przytnij</div>
+                <div id="kontrolka-obrot-lewo" class="btn btn-info" data-deg="-90">Obróć w lewo</div>
+                <div id="kontrolka-obrot-prawo" class="btn btn-info" data-deg="90">Obróc w prawo</div> 
+                <input type="hidden" id="x" name="x" value="" />
+                <input type="hidden" id="y" name="y" value="" />
+                <input type="hidden" id="w" name="w" value="" />
+                <input type="hidden" id="h" name="h" value="" />
+                <input type="hidden" id="deg" name="deg" value="" />
+            </div>
+            <div>
+                <a class="btn btn-default" href="{{path('pr_download')}}">Pobierz zdjęcie</a>
+            </div>
+            <div class="panel-body text-center">
+                <img id="edytowane-zdjecie" src="{{asset(project.getCurrentAction.getWebPath)}}" />
+            </div>
+        </div>
+    </form>
+
+    {% raw %}
+        <script>
+
+            window.onload = function () {
+                (function ($, Backbone) {
+                    // 
+                    var Kontrolka = function (el, opts) {
+                        this.init(el, opts);
+                    };
+
+                    $.extend(Kontrolka.prototype, Backbone.Events, {
+                        init: function (el, opts) {
+                            this.el = $(el);
+                            this.opts = $.extend(true, {}.opts || {});
+                            this.__init();
+                        },
+                        __init: function () {
+                            console.log("Ta funkcjonalnosć wymaga zaimplementowania");
+                        }
+
+                    });
+
+
+                    /**
+                     * 
+                     * @param {object} el element dom zdjęcia
+                     * @param {object} opts
+                     * @returns {undefined}
+                     */
+                    var KontrolkaZaznaczObszar = function (el, opts) {
+                        this.init(el, opts);
+                    };
+
+
+                    $.extend(KontrolkaZaznaczObszar.prototype, Kontrolka.prototype, {
+                        __init: function () {
+                            var self = this;
+                            this.setActive();
+
+                            $("#kontrolka-zaznacz-obszar").on("click", function (e) {
+                                if (self.state === "active") {
+                                    self.setNotActive();
+                                } else {
+                                    self.setActive();
+                                }
+                            });
+                        },
+                        
+                        setActive: function () {
+                            var self    = this;
+                            var coords   = this.getAreaCoords();
+                            this.el.imgAreaSelect({
+                                x1: coords.x1,
+                                y1: coords.y1,
+                                x2: coords.x2,
+                                y2: coords.y2,
+                                autoHide: false,
+                                persistent: true,                                
+                                onInit: function(img, selection){
+                                   $("#x").val(selection["x1"]);
+                                    $("#y").val(selection["y1"]);
+                                    $("#w").val(selection["width"]);
+                                    $("#h").val(selection["height"]);
+                                },                                
+                                onSelectEnd: function(img, selection){                               
+                                     $("#x").val(selection["x1"]);
+                                    $("#y").val(selection["y1"]);
+                                    $("#w").val(selection["width"]);
+                                    $("#h").val(selection["height"]);
+                                }
+                            });
+                            
+                            
+                            
+                            this.state = "active";
+                        },
+                        
+                        
+                        setNotActive: function () {
+                            this.el.imgAreaSelect({remove: true});
+                            this.state = "notactive";
+                        },
+                        
+                        __updateForm: function(data){
+                           
+                        },
+                        
+                        getAreaCoords: function(){
+                            var w = this.el.width();
+                            var h = this.el.height();             
+                            var x1 = 0;
+                            var y1 = 0;
+                            var x2 = 0;
+                            var y2 = 0;
+                            if(w > 0 && h > 0){
+                                x1 = (w/4);
+                                y1 = (h/4);
+                                x2 = x1 + 2*(w/4);
+                                y2 = y1 + 2*(h/4);
+                            }
+                            
+                            return {
+                              x1: x1,
+                              y1: y1,
+                              x2: x2,
+                              y2: y2                              
+                            };
+                            
+                            
+                        }                       
+                        
+                    });
+
+
+                    /**
+                     * Kropowanie obrazka
+                     * 
+                     * @param {type} el
+                     * @param {type} opts
+                     * @returns {undefined}
+                     */
+                    var KontrolkaPrzytnij = function (el,opts) {
+                        this.init(el, opts);
+                    };
+
+                    $.extend(KontrolkaPrzytnij.prototype, Kontrolka.prototype, {
+                        __init: function () {
+                            this.el.on("click", function(){
+                                $("#formularz-edytor").attr("action", "{% endraw %}{{ path('eff_crop') }}{% raw %}");
+                                $("#formularz-edytor").submit();
+                            });
+                        },
+                        
+                        setActive: function () {                          
+                            this.state = "active";
+                        },
+                        
+                        setNotActive: function () {
+                            this.state = "notactive";
+                        }
+                    });
+                    
+                    
+                    /**
+                    * Obracanie obrazka
+                     * @param {type} el
+                     * @param {type} opts
+                     * @returns {undefined}                     
+                     * */
+                    
+                    var KontrolkaObrot = function (el,opts) {
+                        this.init(el, opts);
+                    };
+
+                    $.extend(KontrolkaObrot.prototype, Kontrolka.prototype, {
+                        __init: function () {
+                            this.el.on("click", function(){
+                                $("#formularz-edytor").attr("action", "{% endraw %}{{ path('eff_rotate') }}{% raw %}");
+                                $("#deg").val($(this).attr("data-deg"));
+                                $("#formularz-edytor").submit();
+                            });
+                        },
+                        
+                        setActive: function () {                          
+                            this.state = "active";
+                        },
+                        
+                        setNotActive: function () {
+                            this.state = "notactive";
+                        }
+                    });
+
+
+                    var obszar      = new KontrolkaZaznaczObszar($("#edytowane-zdjecie"), {});
+                    var przytnij    = new KontrolkaPrzytnij($("#kontrolka-przytnij"), {});
+                    var obrotLewo       = new KontrolkaObrot($("#kontrolka-obrot-lewo"), {});
+                    var obrotLewo       = new KontrolkaObrot($("#kontrolka-obrot-prawo"), {});
+
+
+
+
+                })(jQuery, Backbone);
+            };
+
+
+
+        </script>
+
+    {% endraw %}
+
+{% endblock %}

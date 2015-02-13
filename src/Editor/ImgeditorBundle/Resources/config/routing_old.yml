@@ -1,0 +1,75 @@
+editor_imgeditor_index:
+    path:  /
+    defaults: { _controller: EditorImgeditorBundle:Default:index}
+    
+editor_imgeditor_project_create:
+    path: project/create
+    defaults: { _controller: EditorImgeditorBundle:Default:createProject}
+    
+editor_imgeditor_project_edit:
+    path: project/edit
+    defaults: { _controller: EditorImgeditorBundle:Default:editProject}
+    
+editor_imgeditor_project_remove:
+    path: project/remove
+    defaults: { _controller: EditorImgeditorBundle:Default:removeProject}
+    
+    
+effect_crop: 
+   path: project/crop
+   defaults: { _controller: EditorImgeditorBundle:Default:cropX}
+    
+    
+    
+editor_imgeditor_action:
+    path: /action/{id_action}
+    defaults: { _controller: EditorImgeditorBundle:Default:index }
+    
+editor_imgeditor_fetch_action:
+    path: /fetch/{id_action}
+    defaults: { _controller: EditorImgeditorBundle:Default:fetch, id_action: ""  }
+    
+editor_imgeditor_project:
+    path: /create/
+    defaults: { _controller: EditorImgeditorBundle:Default:create}   
+
+    
+editor_imgeditor_rotate:
+    path: /rotate/{id_action}
+    defaults: { _controller: EditorImgeditorBundle:Default:rotate }
+    
+editor_imgeditor_contrast:
+    path: /contrast/{id_action}
+    defaults: { _controller: EditorImgeditorBundle:Default:contrast }
+    
+editor_imgeditor_brightness:
+    path: /brightness/{id_action}
+    defaults: { _controller: EditorImgeditorBundle:Default:brightness }
+    
+editor_imgeditor_grayscale:
+    path: /grayscale/{id_action}
+    defaults: { _controller: EditorImgeditorBundle:Default:grayscale }
+    
+editor_imgeditor_sharpen:
+    path: /sharpen/{id_action}
+    defaults: { _controller: EditorImgeditorBundle:Default:sharpen }
+    
+editor_imgeditor_mirror:
+    path: /mirror/{id_action}
+    defaults: { _controller: EditorImgeditorBundle:Default:mirror }
+    
+editor_imgeditor_crop:
+    path: /crop/{id_action}
+    defaults: { _controller: EditorImgeditorBundle:Default:crop }
+    
+editor_imgeditor_undo:
+    path: /undo/{hash_kroku}
+    defaults: { _controller: EditorImgeditorBundle:Default:undo }
+    
+editor_imgeditor_redo:
+    path: /redo/{hash_kroku}
+    defaults: { _controller: EditorImgeditorBundle:Default:redo }
+    
+app_brightness:
+    path: /app/brightness
+    defaults: { _controller: EditorImgeditorBundle:App:brightness }

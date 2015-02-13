@@ -1,0 +1,32 @@
+  #cnt-project {
+        width: 500px;
+        height: 300px;       
+        margin: auto;
+        border: 1px solid #ddd;
+        padding: 5px;
+    }
+    
+    #cnt-project input[type='file']{
+        padding: 10px 15px;
+        
+    }    
+    
+    #toolbar {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+    }
+
+    #toolbar li {
+        border: 1px solid red;
+        float: left;
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    #scene {
+        width: 900px;
+        height: 900px;
+        border: 1px solid #ddd;        
+    }
